@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>管理界面</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+
+<body>
+    <button id="add">添加新数据</button>
+   <table id="form">
+ </table> 
+ <button id="first">第一页</button>
+ <button id="previous">上一页</button>
+ <button id="next">下一页</button>
+ <button id="last">最后一页</button>
+ <button id="back">返回</button>
+<script>
+    $(function(){
+        $("#first").click(function(){
+            sessionStorage.setItem("page",1);
+            $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+        })
+        $("#back").click(function(){
+            $(location).attr("href","http://2324k8108v.iok.la:22557/admin/view");
+            })
+        $("#previous").click(function(){
+            sessionStorage.setItem("page",parseInt(sessionStorage.getItem("page"))  -1);
+            $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+        })
+        $("#next").click(function(){
+            sessionStorage.setItem("page",parseInt(sessionStorage.getItem("page")) +1);
+            $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+           
+            
+        })
+        $("#last").click(function(){
+            $.ajax({
+            url:"http://2324k8108v.iok.la:22557/admin/getlast",
+            
+            xhrFields: { withCredentials: true },
+
+      success: function(data){
+        sessionStorage.setItem("page",data);
+            $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+      }
+            
+         
+        })
+        })
+      
+       
+
+
+        if("anime"==sessionStorage.getItem("type")){
+      
+            $("#add").click(function(){
+                $(location).attr("href","http://2324k8108v.iok.la:22557/admin/addanimeview");
+            })
+            
+            $.ajax({
+            url:"http://2324k8108v.iok.la:22557/admin/getanimelist?page="+sessionStorage.getItem("page"),
+            
+            xhrFields: { withCredentials: true },
+
+            success:function(data){
+                $.each(data,function(i,val){
+                    var $new=$("<tr><td>"+val.name+"</td>"+"<td><a href=\"http://2324k8108v.iok.la:22557/admin/animeedit?id="+val.id+"\""+">编辑</a></td><td><a href=\"http://2324k8108v.iok.la:22557/admin/delete?type=anime&id="+val.id+"\""+">删除</a></td></tr>");
+                    $("#form").append($new);
+                }
+                )
+                pd();
+            }
+        })
+        $("#add").click(function(){
+            $(location).attr("href","http://2324k8108v.iok.la:22557/admin/addanimeview");
+        })
+
+        }else if("news"==sessionStorage.getItem("type")){
+            $("#add").click(function(){
+                $(location).attr("href","http://2324k8108v.iok.la:22557/admin/addnewsview");
+            })
+            $.ajax({
+            url:"http://2324k8108v.iok.la:22557/admin/getnewslist?page="+sessionStorage.getItem("page"),
+            
+            xhrFields: { withCredentials: true },
+
+            success:function(data){
+                $.each(data,function(i,val){
+                    var $new=$("<tr><td>"+val.title+"</td>"+"<td><a href=\"http://2324k8108v.iok.la:22557/admin/newsedit?id="+val.id+"\""+">编辑</a></td><td><a href=\"http://2324k8108v.iok.la:22557/admin/delete?type=news&id="+val.id+"\""+">删除</a></td></tr>");
+                    $("#form").append($new);
+                }
+                )
+                pd();
+            }
+        })
+        $("#add").click(function(){
+            $(location).attr("href","http://2324k8108v.iok.la:22557/admin/addnewsview");
+        })
+    }
+    function pd(){
+$.ajax({
+    url:"http://2324k8108v.iok.la:22557/admin/getsession",
+            
+            xhrFields: { withCredentials: true },
+
+      success: function(data){
+          
+          
+        if(data=="last"){
+            $("#last").hide();
+            $("#next").hide();
+        }
+        if(data=="first"){
+            $("#previous").hide();
+            $("#first").hide();
+       
+    }if(data=="both"){
+            $("#previous").hide();
+            $("#first").hide();
+            $("#last").hide();
+            $("#next").hide();
+    }
+      } 
+})
+
+       
+    
+    }
+        })
+</script>
+</body>
+</html>

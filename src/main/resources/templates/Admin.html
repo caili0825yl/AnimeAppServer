@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>管理界面</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<button id="editanime">编辑新番列表</button>
+<button id="editnews">编辑新闻列表</button>
+<script>
+    function edit(data){
+            sessionStorage.setItem("type",data);
+            sessionStorage.setItem("page",1);
+           
+            
+
+                $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+    }
+    var url="http://2324k8108v.iok.la:22557/admin/judge";
+$(function(){
+    $("#editanime").click(function(){
+     
+
+        $.ajax({
+            xhrFields: { withCredentials: true },
+
+            success:edit("anime")
+
+            }
+        )
+    })
+    $("#editnews").click(function(){
+     
+
+     $.ajax({
+        xhrFields: { withCredentials: true },
+
+         success:edit("news")
+     })
+ })
+})
+</script>
+</body>
+</html>

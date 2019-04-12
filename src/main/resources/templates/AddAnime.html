@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+<body>
+   
+        <div>
+            <label>片名：</label>
+            <input type="text" id="name" size="100" name="name">
+        </div>
+        <div>
+                <label>集数：</label>
+                <input type="text" id="tv" size="30" name="tv">
+            </div>
+            <div>
+                    <label>网站：</label>
+                    <input type="text" id="platform" size="50" name="platform">
+                </div>
+                <div>
+                        <label>链接：</label>
+                        <input type="text" id="url" size="50" name="url">
+                    </div>
+                <div>
+                    <label>封面url：</label>
+                    <input type="text" id="font" size="100" name="font">
+                </div>
+                <div>
+                        <label>图片url：</label>
+                        <input type="text" id="image" size="100" name="image">
+                    </div>
+        <div>
+                <label>制作成员：</label>
+        
+            <textarea style="resize:none;" cols=100 rows=20  id="staff" name="staff" value></textarea>
+        </div>
+        <div>
+                <label>声优阵容：</label>
+        
+            <textarea style="resize:none;" cols=100 rows=20  id="voice" name="voice" value></textarea>
+        </div>
+        <div>
+                <label>故事简介：</label>
+        
+            <textarea style="resize:none;" cols=100 rows=20  id="js" name="js" value></textarea>
+        </div>
+        <div>
+        <button id="submit">提交</button>
+        </div>
+        
+        <div>
+            <button id="back" type="button">返回</button>
+            </div>
+            <script>
+               
+                  function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+                    $(function(){
+                        var id = GetQueryString("id");
+
+                        if(id!=null){
+                        $("#submit").click(function(){
+                            $.ajax({
+                                xhrFields: { withCredentials: true },
+                                    data:{
+                                        "name":$("#name").val(),
+                                        "id":id,
+                                        "tv":$("#tv").val(),
+                                        "url":$("#url").val(),
+                                        "platform":$("#platform").val(),
+                                        "font":$("#font").val(),
+                                        "image":$("#image").val(),
+                                        "staff":$("#staff").val(),
+                                        "voice":$("#voice").val(),
+                                        "js":$("#js").val()
+
+                                    },
+                            url:"http://2324k8108v.iok.la:22557/admin/editanime",
+                            success:function(){
+                                $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+
+                            }
+                               })
+                        })
+                              
+                            
+
+
+                            $.ajax({
+                                xhrFields: { withCredentials: true },
+
+                                url:"http://2324k8108v.iok.la:22557/admin/getanimedata?id="+id,
+                                success:function(data){
+                                    $("#name").val(data.name);
+                            $("#tv").val(data.tv);
+                            $("#url").val(data.url);
+                            $("#platform").val(data.platform);
+                            $("#font").val(data.font);
+                            $("#image").val(data.image);
+                            $("#staff").val(data.staff);
+                            $("#voice").val(data.voice);
+                            $("#js").val(data.js);
+                                }
+                            })
+                        }else 
+                        $("#submit").click(function(){
+                            var name=$("#name").val();
+                            var tv=$("#tv").val();
+                            var url=$("#url").val();
+                            var platform=$("#platform").val();
+                            var font=$("#font").val();
+                            var image=$("#image").val();
+                            var staff=$("#staff").val();
+                            var voice=$("#voice").val();
+                            if(name.replace(/(^\s*)|(\s*$)/g, "") == "" ||name==""){
+                                alert("片名不能为空！");
+                                return false;
+                            }
+                            if(tv.replace(/(^\s*)|(\s*$)/g, "") == "" ||tv==""){
+                                alert("集数不能为空！");
+                                return false;
+                            }
+                            if(url.replace(/(^\s*)|(\s*$)/g, "") == "" ||url==""){
+                                alert("链接不能为空！");
+                                return false;
+                            }
+                            if(platform.replace(/(^\s*)|(\s*$)/g, "") == "" ||platform==""){
+                                alert("网站不能为空！");
+                                return false;
+                            }
+                            if(font.replace(/(^\s*)|(\s*$)/g, "") == "" ||font==""){
+                                alert("封面不能为空！");
+                                return false;
+                            }
+                            if(image.replace(/(^\s*)|(\s*$)/g, "") == "" ||image==""){
+                                alert("图片不能为空！");
+                                return false;
+                            }
+                            if(staff.replace(/(^\s*)|(\s*$)/g, "") == "" ||staff==""){
+                                alert("制作成员不能为空！");
+                                return false;
+                            }
+                            if(voice.replace(/(^\s*)|(\s*$)/g, "") == "" ||voice==""){
+                                alert("声优阵容不能为空！");
+                                return false;
+                            }
+
+                            $.ajax({
+                                xhrFields: { withCredentials: true },
+                                    data:{
+                                        "name":$("#name").val(),
+                                        "id":id,
+                                        "tv":$("#tv").val(),
+                                        "url":$("#url").val(),
+                                        "platform":$("#platform").val(),
+                                        "font":$("#font").val(),
+                                        "image":$("#image").val(),
+                                        "staff":$("#staff").val(),
+                                        "voice":$("#voice").val(),
+                                        "js":$("#js").val()
+
+                                    },
+                            url:"http://2324k8108v.iok.la:22557/admin/addanime",
+                            success:function(){
+                                $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+
+                            }
+                               })
+                        })
+                    
+                    
+                        $("#back").click(function(){
+                            $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+                        })
+                    })
+                    </script>
+</body>
+</html>

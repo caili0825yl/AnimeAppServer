@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+
+<body>
+        <div>
+            <label>标题：</label>
+            <input type="text" id="title" size="100" name="title">
+        </div>
+        <div>
+            <label>小标题：</label>
+            <input type="text" id="ltitle" size="30" name="ltitle">
+        </div>
+        <div>
+            <label>类型：</label>
+            <input type="text" id="type" size="50" name="type">
+        </div>
+
+        <div>
+            <label>封面url：</label>
+            <input type="text" id="font" size="100" name="font">
+        </div>
+        <div>
+            <label>图片url：</label>
+            <input type="text" id="image" size="100" name="image">
+        </div>
+        <div>
+            <label>内容：</label>
+
+            <textarea style="resize:none;" cols=100 rows=20 id="content" name="content" value></textarea>
+        </div>
+
+
+        <div>
+            <button id="submit" type="submit">提交</button>
+        </div>
+    <div>
+        <button id="back" type="button">返回</button>
+    </div>
+    <script>
+             function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        $(function () {
+            var id = GetQueryString("id");
+
+if(id!=null){
+
+    $("#submit").click(function(){
+        $.ajax({
+                                xhrFields: { withCredentials: true },
+                                    data:{
+                                        "title":$("#title").val(),
+                                        "id":id,
+                                        "ltitle":$("#ltitle").val(),
+                                        "type":$("#type").val(),
+                                        "platform":$("#platform").val(),
+                                        "font":$("#font").val(),
+                                        "image":$("#image").val(),
+                                        "content":$("#content").val(),
+                                        
+
+                                    },
+                            url:"http://2324k8108v.iok.la:22557/admin/editnews",
+                            success:function(){
+                                $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+
+                            }
+                               })
+    })
+
+    $.ajax({
+        xhrFields: { withCredentials: true },
+
+        url:"http://2324k8108v.iok.la:22557/admin/getnewsdata?id="+id,
+        success:function(data){
+            $("#title").val(data.title);
+    $("#ltitle").val(data.ltitle);
+    $("#type").val(data.type);
+   
+    $("#font").val(data.font);
+    $("#image").val(data.image);
+    $("#content").val(data.content);
+  
+        }
+    })
+}else
+
+
+
+
+            $("#submit").click(function () {
+                var title = $("#title").val();
+                var ltitle = $("#ltitle").val();
+                var type = $("#type").val();
+                var font = $("#font").val();
+                var image = $("#image").val();
+                var content = $("#content").val();
+                if (title.replace(/(^\s*)|(\s*$)/g, "") == "" || title == "") {
+                    alert("标题不能为空！");
+                    return false;
+                }
+                
+                if (type.replace(/(^\s*)|(\s*$)/g, "") == "" || type == "") {
+                    alert("类型不能为空！");
+                    return false;
+                }
+                if (font.replace(/(^\s*)|(\s*$)/g, "") == "" || font == "") {
+                    alert("封面Url不能为空！");
+                    return false;
+                }
+                if (image.replace(/(^\s*)|(\s*$)/g, "") == "" || image == "") {
+                    alert("图片url不能为空！");
+                    return false;
+                }
+                if (content.replace(/(^\s*)|(\s*$)/g, "") == "" || content == "") {
+                    alert("内容不能为空！");
+                    return false;
+                }
+                $.ajax({
+                                xhrFields: { withCredentials: true },
+                                    data:{
+                                        "title":$("#title").val(),
+                                        "id":id,
+                                        "ltitle":$("#ltitle").val(),
+                                        "type":$("#type").val(),
+                                        "platform":$("#platform").val(),
+                                        "font":$("#font").val(),
+                                        "image":$("#image").val(),
+                                        "content":$("#content").val(),
+                                        
+                                    },
+                            url:"http://2324k8108v.iok.la:22557/admin/addnews",
+                            success:function(){
+                                $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+
+                            }
+                               })
+            })
+
+
+            $("#back").click(function () {
+                $(location).attr("href","http://2324k8108v.iok.la:22557/admin/edit");
+            })
+        })
+    </script>
+</body>
+
+</html>
